@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rules.vueshop.mapper.UserMapper">
+
+
+    <select id="queryUser" resultType="com.rules.vueshop.model.UserDO">
+        SELECT `username`, `password` FROM `user`
+        WHERE `username` = #{username}
+    </select>
+
+    <insert id="upsertUser">
+        INSERT INTO `user`(`username`,`email`,`password`,`phone`)
+        VALUES (
+                #{userDO.username},
+                #{userDO.email},
+                #{userDO.password},
+                #{userDO.phone}
+               )
+        ON DUPLICATE KEY UPDATE
+            `username` = VALUES(`username`),
+            `email` = VALUES(`email`),
+            `password` = VALUES(`password`),
+            `phone` = VALUES(`phone`)
+    </insert>
+</mapper>
