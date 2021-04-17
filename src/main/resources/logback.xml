@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <property resource="${LOGBACK_CUSTOM_FILE:-config/application.properties}"/>
+    <property name="LOG_DIR" value="${APP_HOME:-.}/logs"/>
+    <property name="CONSOLE_LOG_PATTERN" value="%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>NEUTRAL</onMismatch>
+        </filter>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>NEUTRAL</onMismatch>
+        </filter>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+    <appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+    <appender name="SQLOUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/sql_out.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>NEUTRAL</onMismatch>
+        </filter>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>NEUTRAL</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/sql_out.%d{yyyy-MM-dd}.log.%i.gz</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>20MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+    <appender name="SQLERR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/sql_err.log</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/sql_err.%d{yyyy-MM-dd}.log.%i.gz</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>20MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+    <appender name="APPOUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/server_out.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>NEUTRAL</onMismatch>
+        </filter>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>NEUTRAL</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_DIR}/app_out.%d{yyyy-MM-dd}.log.gz</FileNamePattern>
+            <cleanHistoryOnStart>false</cleanHistoryOnStart>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>[%date{yyyy-MM-dd HH:mm:ss}] [%thread] [%-5level] [%logger:%line] --%mdc{client} %msg%n</pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+    <appender name="APPERR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/server_err.log</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_DIR}/app_err.%d{yyyy-MM-dd}.log.gz</FileNamePattern>
+            <cleanHistoryOnStart>false</cleanHistoryOnStart>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>[%date{yyyy-MM-dd HH:mm:ss}] [%thread] [%-5level] [%logger:%line] --%mdc{client} %msg%n</pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+    <appender name="SYSOUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/sys_out.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>NEUTRAL</onMismatch>
+        </filter>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>NEUTRAL</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_DIR}/sys_out.%d{yyyy-MM-dd}.log.gz</FileNamePattern>
+            <cleanHistoryOnStart>false</cleanHistoryOnStart>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>[%date{yyyy-MM-dd HH:mm:ss}] [%thread] [%-5level] [%logger:%line] --%mdc{client} %msg%n</pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+    <appender name="SYSERR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/sys_err.log</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_DIR}/sys_err.%d{yyyy-MM-dd}.log.gz</FileNamePattern>
+            <cleanHistoryOnStart>false</cleanHistoryOnStart>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>[%date{yyyy-MM-dd HH:mm:ss}] [%thread] [%-5level] [%logger:%line] --%mdc{client} %msg%n</pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+    <appender name="NULL" class="ch.qos.logback.core.helpers.NOPAppender"/>
+
+    <logger name="com.rules.vueshop.mapper" level="${log.sql.level}" additivity="false">
+        <appender-ref ref="${log.sql.out:-STDOUT}"/>
+        <appender-ref ref="${log.sql.err:-STDERR}"/>
+    </logger>
+
+    <logger name="com.rules.vueshop" level="${log.app.level}" additivity="false">
+        <appender-ref ref="${log.app.out:-STDOUT}"/>
+        <appender-ref ref="${log.app.err:-STDERR}"/>
+    </logger>
+
+    <root level="${log.sys.level}">
+        <appender-ref ref="${log.sys.out:-STDOUT}"/>
+        <appender-ref ref="${log.sys.err:-STDERR}"/>
+    </root>
+</configuration>
