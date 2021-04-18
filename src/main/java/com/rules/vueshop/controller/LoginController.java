@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @Api(tags = "登录相关接口", value = "登录相关接口")
-@RequestMapping("/v1")
+@RequestMapping("/v1/user")
 @RestController
 public class LoginController {
     @Autowired
@@ -22,13 +24,13 @@ public class LoginController {
 
     @ApiOperation("注册")
     @PostMapping(value = "/register")
-    public Result<UserDTO> register(@RequestBody UserDTO userDTO) {
+    public Result<Map<String, Object>> register(@RequestBody UserDTO userDTO) {
         return ResultGenerator.genSuccessResult(loginService.register(userDTO));
     }
 
     @ApiOperation("登录")
     @PostMapping(value = "/login")
-    public Result<UserDTO> login(@RequestBody UserDTO userDTO) {
+    public Result<Map<String, Object>> login(@RequestBody UserDTO userDTO) {
         return ResultGenerator.genSuccessResult(loginService.login(userDTO));
     }
 }

@@ -1,7 +1,7 @@
 package com.rules.vueshop.advice;
 
 import com.rules.vueshop.common.Result;
-import com.rules.vueshop.common.ResultCode;
+import com.rules.vueshop.common.ResultStatusEnum;
 import com.rules.vueshop.exceptions.AuthorizedException;
 import com.rules.vueshop.exceptions.HintException;
 import com.rules.vueshop.util.ExceptionUtils;
@@ -36,7 +36,7 @@ public class GlobalResponseHandler implements ResponseBodyAdvice<Result<?>> {
     public Result authorizedException(AuthorizedException e) {
         logger.error("authorized exception {}", ExceptionUtils.stringifyException(e));
         return new Result()
-            .setCode(ResultCode.UNAUTHORIZED)
+            .setCode(ResultStatusEnum.UNAUTHORIZED)
             .setMessage(e.getMessage());
     }
 
@@ -44,7 +44,8 @@ public class GlobalResponseHandler implements ResponseBodyAdvice<Result<?>> {
     public Result HintException(HintException e) {
         logger.error("validation exception {}", ExceptionUtils.stringifyException(e));
         return new Result()
-            .setCode(ResultCode.EXPECTATION_FAILED)
+            .setStatus(ResultStatusEnum.EXPECTATION_FAILED.getStatus())
+            .setCode(ResultStatusEnum.EXPECTATION_FAILED)
             .setMessage(e.getMessage());
     }
 

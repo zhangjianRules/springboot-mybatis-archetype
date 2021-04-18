@@ -7,10 +7,11 @@ package com.rules.vueshop.common;
 public class Result<T> {
     private int code;
     private String message;
+    private String status;
     private T data;
 
-    public Result setCode(ResultCode resultCode) {
-        this.code = resultCode.code();
+    public Result setCode(ResultStatusEnum resultStatusEnum) {
+        this.code = resultStatusEnum.code();
         return this;
     }
 
@@ -36,8 +37,12 @@ public class Result<T> {
         return this;
     }
 
-//    @Override
-//    public String toString() {
-//        return JSON.toJSONString(this);
-//    }
+    public String getStatus() {
+        return status;
+    }
+
+    public Result setStatus(String status) {
+        this.status = status;
+        return this;
+    }
 }

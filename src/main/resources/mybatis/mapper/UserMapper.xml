@@ -5,7 +5,7 @@
 
 
     <select id="queryUser" resultType="com.rules.vueshop.model.UserDO">
-        SELECT `username`, `password` FROM `user`
+        SELECT `username`, `password`, `email`, `phone` FROM `user`
         WHERE `username` = #{username}
     </select>
 

@@ -16,5 +16,5 @@ public interface UserMapper {
      * @param userDO 用户信息
      * @return 用户信息
      */
-    UserDO upsertUser(@Param("userDO") UserDO userDO);
+    int upsertUser(@Param("userDO") UserDO userDO);
 }
