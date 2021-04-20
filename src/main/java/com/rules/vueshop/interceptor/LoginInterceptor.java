@@ -20,14 +20,14 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Map<Object, Object> map = new HashMap<>();
         //获取请求头中令牌
-        String token = request.getHeader("token");
+        String token = request.getHeader("Authorization");
         if (StringUtils.isBlank(token)) {
             map.put("message", "token 不存在");
             buildResponseHintException(response, map);
             return false;
         }
         try {
-            //验证令牌
+            // 验证令牌
             TokenUtil.verify(token);
             return true;
         } catch (SignatureVerificationException e) {
