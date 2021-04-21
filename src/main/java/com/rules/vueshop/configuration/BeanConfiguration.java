@@ -11,11 +11,14 @@ public class BeanConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginInterceptor())
             .addPathPatterns("/**")
+            .excludePathPatterns("/")
             .excludePathPatterns("/v{spring:[0-9]+}/user/**")
             .excludePathPatterns("/webjars/**")
             .excludePathPatterns("/swagger.json")
             .excludePathPatterns("/swagger-ui.html")
             .excludePathPatterns("/swagger-resources/**")
-            .excludePathPatterns("/error");
+            .excludePathPatterns("/error")
+            .excludePathPatterns("/csrf")
+            .excludePathPatterns("/favicon.*");
     }
 }
