@@ -5,7 +5,7 @@ swagger接口
     密码：admin
 
 目前只写了简单demo
-本地需要增加配置：-DLOGBACK_CUSTOM_FILE=config/server.local.properties
+如若想看输出日志，本地需要增加配置：-DLOGBACK_CUSTOM_FILE=config/server.local.properties
 
 新建数据库
 CREATE TABLE `user` (
